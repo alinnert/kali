@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#vue-inspector-container,
+#__vue-devtools-container__ {
+  @apply print:hidden;
+}
+
+.lucide {
+  @apply w-4 h-4 stroke-1;
+  position: relative;
+}
+
+.lucide * {
+  vector-effect: non-scaling-stroke;
+}
