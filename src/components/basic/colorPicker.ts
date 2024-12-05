@@ -4,8 +4,8 @@ const colorIndexes = [1, 2, 3] as const
 type ColorIndex = (typeof colorIndexes)[number]
 export type OklchColorSet = Record<`color${ColorIndex}`, string>
 
-export const lightnessValues = { color1: '74%', color2: '90%', color3: '95%' }
-export const chromaValues = { color1: '0.12', color2: '0.07', color3: '0.05' }
+export const lightnessValues = { color1: '84%', color2: '92%', color3: '96%' }
+export const chromaValues = { color1: '0.12', color2: '0.07', color3: '0.03' }
 
 export function getOklch(colorIndex: ColorIndex, hue: number): `oklch(${string})` {
   const lightness = lightnessValues[`color${colorIndex}`]

@@ -1,34 +1,38 @@
 <script setup lang="ts">
-import { useGlobalCalStore } from '@/calendars/global/globalCalStore.js'
-import { getHolidays } from '@/calendars/global/holidays/holidayQueries.js'
 import AppHeadline from '@/components/basic/AppHeadline.vue'
-import { useQuery } from '@tanstack/vue-query'
+import SelectGrid from '@/components/basic/SelectGrid.vue'
+import { useHolidaysStore } from '@/holidays/holidaysStore.js'
+import { holidayStates } from '@/holidays/holidayStates.js'
+import { useHolidays } from '@/holidays/useHolidays.js'
 
-const globalCalStore = useGlobalCalStore()
+const holidaysStore = useHolidaysStore()
 
-const { isPending, isError, error, data } = useQuery({
-  queryKey: ['holidays'],
-  queryFn: getHolidays(globalCalStore.year, 'BY'),
-})
+const { holidaysResult, holidays } = useHolidays()
 </script>
 
 <template>
   <AppHeadline>Feiertage</AppHeadline>
 
   <AppHeadline :level="2">Bundesland</AppHeadline>
+  <SelectGrid
+    :items="holidayStates"
+    :selected-item="holidaysStore.selectedState"
+    @update:selected-item="holidaysStore.setSelectedState"
+  />
 
   <AppHeadline :level="2">Feiertage</AppHeadline>
   <div>
-    <div v-if="isPending">Laden...</div>
-    <div v-else-if="isError">{{ error }}</div>
-    <div v-else>
-      <div v-for="(info, holiday) in data" :key="holiday" class="mb-4">
+    <div v-if="holidaysResult.isPending.value">Laden...</div>
+    <div v-else-if="holidaysResult.isError.value">{{ holidaysResult.error }}</div>
+    <div v-else-if="holidaysResult.isFetched.value">
+      <div v-for="holiday in holidays" :key="holiday.name" class="mb-4">
         <div class="grid grid-cols-2 text-sm">
-          <div class="font-bold">{{ holiday }}</div>
-          <div>{{ info.datum }}</div>
+          <div class="font-bold">{{ holiday.name }}</div>
+          <div>{{ holiday.date.toLocaleString() }}</div>
         </div>
-        <div class="text-xs" v-if="info.hinweis !== ''">{{ info.hinweis }}</div>
+        <div class="text-xs" v-if="holiday.info !== ''">{{ holiday.info }}</div>
       </div>
     </div>
+    <div v-else>huh?</div>
   </div>
 </template>

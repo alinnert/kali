@@ -2,19 +2,15 @@
 import ShiftCalPreviewMonth from '@/calendars/shift/ShiftCalPreviewMonth.vue'
 import ShiftCalPreviewWeekHeader from '@/calendars/shift/ShiftCalPreviewWeekHeader.vue'
 import { Temporal } from '@js-temporal/polyfill'
-import { useQuery } from '@tanstack/vue-query'
 import { computed } from 'vue'
 import { useGlobalCalStore } from '../global/globalCalStore.js'
-import { getHolidays } from '../global/holidays/holidayQueries.js'
+import { useHolidays } from '../../holidays/useHolidays.js'
 import { ShiftName, useShiftCalStore } from './shiftCalStore.js'
 
 const store = useShiftCalStore()
 const globalCalStore = useGlobalCalStore()
 
-const { data: holidays } = useQuery({
-  queryKey: ['holidays'],
-  queryFn: getHolidays(globalCalStore.year, 'BY'),
-})
+const { isHoliday } = useHolidays()
 
 const firstDay = computed(() =>
   Temporal.PlainDate.from({ year: globalCalStore.year, month: 1, day: 1 }),
@@ -99,10 +95,7 @@ function getShift(index: number): ShiftName {
       :key="day.toString()"
       class="text-xs leading-none py-0.5 print:text-3xs text-center px-0.5"
       :class="{
-        'bg-red-400 text-red-950 font-bold':
-          holidays !== undefined
-            ? Object.values(holidays).some((h) => h.datum === day.toString())
-            : false,
+        'bg-red-200 text-red-800 font-bold': isHoliday(day),
       }"
       :style="{ gridRowStart: getDateRow(index), gridColumnStart: getDateCol(index) }"
     >

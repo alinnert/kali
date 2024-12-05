@@ -21,9 +21,16 @@ const shiftName = computed(() => t(`shiftNames.${shift}`))
 
 <template>
   <div
+    class="col-span-7 text-center uppercase print:text-xs row-start-1 border-l border-l-gray-500"
+    :style="{ gridColumnStart: columnStart, backgroundColor: colors.color1 }"
+  >
+    {{ shiftName }}
+  </div>
+
+  <div
     :style="{
       gridColumnStart: columnStart,
-      gridColumnEnd: columnStart + 5,
+      gridColumnEnd: columnStart + 7,
       gridRowStart: 2,
       backgroundColor: colors.color3,
     }"
@@ -32,18 +39,19 @@ const shiftName = computed(() => t(`shiftNames.${shift}`))
   <div
     :style="{
       gridColumnStart: columnStart + 5,
+      gridColumnEnd: columnStart + 7,
       gridRowStart: 2,
-      gridRowEnd: rowEnd,
       backgroundColor: colors.color2,
     }"
   />
 
   <div
     :style="{
-      gridColumnStart: columnStart + 6,
-      gridRowStart: 2,
+      gridColumnStart: columnStart + 5,
+      gridColumnEnd: columnStart + 7,
+      gridRowStart: 3,
       gridRowEnd: rowEnd,
-      backgroundColor: colors.color2,
+      backgroundColor: colors.color3,
     }"
   />
 
@@ -51,13 +59,6 @@ const shiftName = computed(() => t(`shiftNames.${shift}`))
     class="border-l border-l-gray-500 relative"
     :style="{ gridColumnStart: columnStart, gridRowStart: 2, gridRowEnd: rowEnd }"
   />
-
-  <div
-    class="col-span-7 text-center uppercase print:text-xs row-start-1 border-l border-l-gray-500"
-    :style="{ gridColumnStart: columnStart, backgroundColor: colors.color1 }"
-  >
-    {{ shiftName }}
-  </div>
 
   <div
     v-for="index in 7"

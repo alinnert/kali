@@ -8,7 +8,7 @@ defineEmits(['click'])
 
 const bgClasses = computed(() =>
   inline
-    ? 'dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600'
+    ? 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600'
     : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700',
 )
 

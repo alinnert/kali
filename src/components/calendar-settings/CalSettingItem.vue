@@ -9,8 +9,8 @@ defineProps<Props>()
     :class="[
       'grid grid-cols-[1fr,auto] gap-2',
       'p-3',
-      'border border-gray-200 dark:border-gray-600',
       'bg-white dark:bg-gray-800',
+      'border border-gray-200 dark:border-gray-600',
       'rounded-lg',
       'select-none',
     ]"
