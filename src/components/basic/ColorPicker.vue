@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getOklch } from './colorPicker.js';
+import { getOklch } from './colorPicker.js'
 
 defineModel<number>('hue', { required: true })
 
