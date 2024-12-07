@@ -1,34 +1,34 @@
-<script setup lang="ts" generic="VALUE extends string">
-export type SelectGridItem<V> = { value: V; label: string }
+<script setup lang="ts" generic="VALUE extends string, DATA">
+import type { FormListItem } from './formListItem.ts'
 
-type Props = {
-  items: SelectGridItem<VALUE>[]
-}
+type Item = FormListItem<VALUE, DATA> & { cols?: number }
+type Props = { items: Item[] }
 
 defineProps<Props>()
-defineModel<VALUE | null>('selectedItem', { required: true })
+const selectedItem = defineModel<VALUE>('selectedItem', { required: true })
+
+const isSelected = ({ value }: Item): boolean => value === selectedItem.value
 </script>
 
 <template>
   <div class="grid grid-cols-4 gap-2">
     <div
-      v-for="item in items"
-      :key="item.value"
+      v-for="(item, index) in items"
+      :key="index"
       :class="[
-        'p-3 text-sm text-center content-center',
-        'bg-white',
-        'border',
-        'rounded-lg',
+        'p-3',
+        'border rounded-lg',
         {
-          'bg-sky-100 dark:bg-sky-700': selectedItem === item.value,
-          'border-sky-300 dark:border-sky-500': selectedItem === item.value,
-          'bg-white dark:bg-gray-800': selectedItem !== item.value,
-          'border-gray-200 dark:border-gray-600': selectedItem !== item.value,
+          'bg-sky-100 dark:bg-sky-700': isSelected(item),
+          'border-sky-300 dark:border-sky-500': isSelected(item),
+          'bg-white dark:bg-gray-800': !isSelected(item),
+          'border-gray-200 dark:border-gray-600': !isSelected(item),
         },
       ]"
+      :style="{ gridColumn: `span ${item.cols ?? 1}` }"
       @click="$emit('update:selectedItem', item.value)"
     >
-      {{ item.label }}
+      <slot :value="item.value" :data="item.data"></slot>
     </div>
   </div>
 </template>

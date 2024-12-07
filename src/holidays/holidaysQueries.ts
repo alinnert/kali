@@ -1,22 +1,5 @@
 import type { QueryFunctionContext } from '@tanstack/vue-query'
-
-export type HolidayState =
-  | 'BW'
-  | 'BY'
-  | 'BE'
-  | 'BB'
-  | 'HB'
-  | 'HH'
-  | 'HE'
-  | 'MV'
-  | 'NI'
-  | 'NW'
-  | 'RP'
-  | 'SL'
-  | 'SN'
-  | 'ST'
-  | 'SH'
-  | 'TH'
+import type { HolidayState } from './holidayStates'
 
 export type HolidayData = { datum: string; hinweis: string }
 export type HolidaysForState = Record<string, HolidayData>

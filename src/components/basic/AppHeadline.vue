@@ -19,5 +19,5 @@ const classNames = computed((): string => {
 </script>
 
 <template>
-  <h1 class="select-none" :class="classNames"><slot /></h1>
+  <h1 class="select-none mb-2" :class="classNames"><slot /></h1>
 </template>

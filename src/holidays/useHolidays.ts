@@ -21,7 +21,7 @@ export function useHolidays() {
   const holidaysResult = useQuery({
     queryKey: ['holidays', year, selectedState],
     queryFn: getHolidays,
-    enabled: selectedState.value !== null,
+    enabled: computed((): boolean => selectedState.value !== ''),
   })
 
   const holidays = computed((): FormattedHoliday[] => {

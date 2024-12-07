@@ -1,13 +1,14 @@
 import { getStorageKeyGroup } from '@/lib/general/getStorageKeyGroup'
 import { useStorage } from '@vueuse/core'
 import { defineStore } from 'pinia'
+import type { HolidayState } from './holidayStates'
 
 const storageKey = getStorageKeyGroup('holidays')
 
 export const useHolidaysStore = defineStore('holidays', {
   state: () => ({
     hiddenHolidays: useStorage<Set<string>>(storageKey('hidden-holidays'), new Set()),
-    selectedState: useStorage<string | null>(storageKey('selected-state'), null),
+    selectedState: useStorage<HolidayState | ''>(storageKey('selected-state'), ''),
   }),
 
   actions: {
@@ -18,7 +19,7 @@ export const useHolidaysStore = defineStore('holidays', {
         this.hiddenHolidays.add(name)
       }
     },
-    setSelectedState(state: string | null) {
+    setSelectedState(state: HolidayState | '') {
       this.selectedState = state
     },
   },
