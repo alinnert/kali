@@ -18,10 +18,11 @@ const isSelected = ({ value }: Item): boolean => value === selectedItem.value
       :class="[
         'p-3',
         'border rounded-lg',
+        'select-none',
         {
           'bg-sky-100 dark:bg-sky-700': isSelected(item),
           'border-sky-300 dark:border-sky-500': isSelected(item),
-          'bg-white dark:bg-gray-800': !isSelected(item),
+          'bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700': !isSelected(item),
           'border-gray-200 dark:border-gray-600': !isSelected(item),
         },
       ]"

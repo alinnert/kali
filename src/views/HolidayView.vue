@@ -37,6 +37,28 @@ const { holidaysResult, holidays } = useHolidays()
   </SelectGrid>
 
   <template v-if="holidaysStore.selectedState !== ''">
+    <AppHeadline :level="2">Feiertage (de)aktivieren</AppHeadline>
+
+    <div @click="holidaysStore.toggleSchoolOnlyHolidays">
+      {{ holidaysStore.showSchoolOnlyHolidays ? '[X]' : '[_]' }} Schulfreie Tage anzeigen
+    </div>
+
+    <template v-for="holiday in holidays" :key="holiday.name">
+      <div
+        v-if="holiday.askDirectly"
+        @click="holidaysStore.toggleOptionalHolidays(holidaysStore.selectedState, holiday.name)"
+      >
+        {{
+          holidaysStore.enabledOptionalHolidays.some(
+            (it) => it.state === holidaysStore.selectedState && it.holiday === holiday.name,
+          )
+            ? '[X]'
+            : '[_]'
+        }}
+        {{ holiday.name }} anzeigen
+      </div>
+    </template>
+
     <AppHeadline :level="2">Feiertage</AppHeadline>
 
     <div>
