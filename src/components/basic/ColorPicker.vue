@@ -1,32 +1,39 @@
 <script setup lang="ts">
-import { getOklch } from './colorPicker.js'
+import type { ColorPickerColor } from './colorPicker.ts'
+import ColorPickerItem from './ColorPickerItem.vue'
 
-defineModel<number>('hue', { required: true })
+defineModel<ColorPickerColor>('color', { required: true })
 
-function* generateHues(step: number) {
+function* generateHues(amount: number) {
+  const step = 360 / amount
   let hue = 0
 
   do {
-    yield hue
+    yield Math.round(hue)
     hue += step
   } while (hue < 360)
 }
 
-const hues = Array.from(generateHues(15))
+const hues = Array.from(generateHues(6 * 3 + 4))
+const grays = [85, 70]
 </script>
 
 <template>
   <div class="grid grid-cols-6 gap-1.5">
-    <div
-      v-for="h in hues"
-      :key="h"
-      class="grid grid-rows-2 grid-cols-2 overflow-hidden ring-offset-1 ring-sky-500 aspect-square rounded"
-      :class="{ 'ring-2': h === hue }"
-      @click="$emit('update:hue', h)"
-    >
-      <div class="col-span-2" :style="{ backgroundColor: getOklch(1, h) }"></div>
-      <div :style="{ backgroundColor: getOklch(3, h) }"></div>
-      <div :style="{ backgroundColor: getOklch(2, h) }"></div>
-    </div>
+    <ColorPickerItem
+      v-for="hue in hues"
+      :key="hue"
+      :color="{ type: 'hue', hue }"
+      :selected="color.type === 'hue' && color.hue === hue"
+      @click="$emit('update:color', { type: 'hue', hue })"
+    />
+
+    <ColorPickerItem
+      v-for="gray in grays"
+      :key="gray"
+      :color="{ type: 'gray', gray }"
+      :selected="color.type === 'gray' && color.gray === gray"
+      @click="$emit('update:color', { type: 'gray', gray })"
+    />
   </div>
 </template>

@@ -1,4 +1,8 @@
-import { getOklchColorSet, type OklchColorSet } from '@/components/basic/colorPicker'
+import {
+  getOklchColorSet,
+  type ColorPickerColor,
+  type OklchColorSet,
+} from '@/components/basic/colorPicker'
 import { getStorageKeyGroup } from '@/lib/general/getStorageKeyGroup'
 import { useStorage } from '@vueuse/core'
 import { defineStore } from 'pinia'
@@ -12,9 +16,16 @@ const storageKey = getStorageKeyGroup('shift-cal')
 
 export const useShiftCalStore = defineStore('shift-calendar', {
   state: () => ({
-    earlyShiftHue: useStorage(storageKey('early-shift-color'), 135),
-    lateShiftHue: useStorage(storageKey('late-shift-color'), 300),
+    earlyShiftColor: useStorage<ColorPickerColor>(storageKey('early-shift-color'), {
+      type: 'hue',
+      hue: 135,
+    }),
+    lateShiftColor: useStorage<ColorPickerColor>(storageKey('late-shift-color'), {
+      type: 'hue',
+      hue: 300,
+    }),
     firstShiftInYear: useStorage<ShiftName>(storageKey('first-shift-in-year'), ShiftName.Early),
+    highlightSaturdays: useStorage<boolean>(storageKey('highlight-saturdays'), true),
   }),
 
   getters: {
@@ -22,25 +33,28 @@ export const useShiftCalStore = defineStore('shift-calendar', {
       return (shift) => {
         switch (shift) {
           case ShiftName.Early:
-            return getOklchColorSet(state.earlyShiftHue)
+            return getOklchColorSet(state.earlyShiftColor)
           case ShiftName.Late:
-            return getOklchColorSet(state.lateShiftHue)
+            return getOklchColorSet(state.lateShiftColor)
           default:
-            return getOklchColorSet(0)
+            return getOklchColorSet({ type: 'hue', hue: 0 })
         }
       }
     },
   },
 
   actions: {
-    setEarlyShiftHue(hue: number) {
-      this.earlyShiftHue = hue
+    setEarlyShiftColor(color: ColorPickerColor) {
+      this.earlyShiftColor = color
     },
-    setLateShiftHue(hue: number) {
-      this.lateShiftHue = hue
+    setLateShiftColor(color: ColorPickerColor) {
+      this.lateShiftColor = color
     },
     setFirstShiftInYear(firstShift: ShiftName) {
       this.firstShiftInYear = firstShift
+    },
+    toggleHighlightSaturdays() {
+      this.highlightSaturdays = !this.highlightSaturdays
     },
   },
 })

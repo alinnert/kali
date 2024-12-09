@@ -10,7 +10,6 @@ const storageKey = getStorageKeyGroup('holidays')
 
 export const useHolidaysStore = defineStore('holidays', {
   state: () => ({
-    hiddenHolidays: useStorage<Set<string>>(storageKey('hidden-holidays'), new Set()),
     selectedState: useStorage<HolidayState | ''>(storageKey('selected-state'), ''),
     showSchoolOnlyHolidays: useStorage<boolean>(storageKey('show-school-only-holidays'), false),
     enabledOptionalHolidays: useStorage<HolidayDefinition[]>(
@@ -39,13 +38,6 @@ export const useHolidaysStore = defineStore('holidays', {
   },
 
   actions: {
-    toggleHoliday(name: string) {
-      if (this.hiddenHolidays.has(name)) {
-        this.hiddenHolidays.delete(name)
-      } else {
-        this.hiddenHolidays.add(name)
-      }
-    },
     setSelectedState(state: HolidayState | '') {
       this.selectedState = state
     },

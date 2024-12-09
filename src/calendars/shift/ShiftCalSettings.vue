@@ -1,14 +1,14 @@
 <script setup lang="ts">
+import AppButton from '@/components/basic/AppButton.vue'
 import ColorPicker from '@/components/basic/ColorPicker.vue'
+import NumberInput from '@/components/basic/NumberInput.vue'
 import SelectList, { type SelectListItem } from '@/components/basic/SelectList.vue'
 import CalSettingItem from '@/components/calendar-settings/CalSettingItem.vue'
 import CalSettings from '@/components/calendar-settings/CalSettings.vue'
-import { t } from 'i18next'
-import { ShiftName, useShiftCalStore } from './shiftCalStore.js'
-import { useGlobalCalStore } from '../global/globalCalStore.js'
-import NumberInput from '@/components/basic/NumberInput.vue'
-import AppButton from '@/components/basic/AppButton.vue'
 import { Temporal } from '@js-temporal/polyfill'
+import { t } from 'i18next'
+import { useGlobalCalStore } from '../global/globalCalStore.js'
+import { ShiftName, useShiftCalStore } from './shiftCalStore.js'
 
 const store = useShiftCalStore()
 const globalCalStore = useGlobalCalStore()
@@ -49,14 +49,14 @@ const shiftItems = [shiftListItem(ShiftName.Early), shiftListItem(ShiftName.Late
     <CalSettingItem title="Samstag einfärben"></CalSettingItem>
     <CalSettingItem title="Farbe Frühschicht">
       <ColorPicker
-        :hue="store.earlyShiftHue"
-        @update:hue="(h) => store.setEarlyShiftHue(h)"
+        :color="store.earlyShiftColor"
+        @update:color="(h) => store.setEarlyShiftColor(h)"
       ></ColorPicker>
     </CalSettingItem>
     <CalSettingItem title="Farbe Spätschicht">
       <ColorPicker
-        :hue="store.lateShiftHue"
-        @update:hue="(h) => store.setLateShiftHue(h)"
+        :color="store.lateShiftColor"
+        @update:color="(h) => store.setLateShiftColor(h)"
       ></ColorPicker>
     </CalSettingItem>
   </CalSettings>
