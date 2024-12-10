@@ -72,13 +72,21 @@ export function useHolidays() {
     return holidays.value.map((d): Temporal.PlainDate => d.date)
   })
 
-  function isHoliday(date: Temporal.PlainDate): boolean {
+  function isHoliday(date: Temporal.PlainDate): 'work' | 'school' | 'none' {
     const holiday = holidays.value.find((h) => h.date.equals(date))
     if (holiday === undefined) {
-      return false
+      return 'none'
     }
 
-    return holidaysStore.showHoliday(holiday)
+    if (!holidaysStore.showHoliday(holiday)) {
+      return 'none'
+    }
+
+    if (holiday.onlyForSchool) {
+      return 'school'
+    }
+
+    return 'work'
   }
 
   return { holidaysResult, holidays, holidayDates, isHoliday }

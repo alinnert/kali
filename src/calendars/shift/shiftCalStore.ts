@@ -12,6 +12,9 @@ export enum ShiftName {
   Late = 'late',
 }
 
+const weekdays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] as const
+export type Weekday = (typeof weekdays)[number]
+
 const storageKey = getStorageKeyGroup('shift-cal')
 
 export const useShiftCalStore = defineStore('shift-calendar', {
@@ -25,7 +28,11 @@ export const useShiftCalStore = defineStore('shift-calendar', {
       hue: 300,
     }),
     firstShiftInYear: useStorage<ShiftName>(storageKey('first-shift-in-year'), ShiftName.Early),
-    highlightSaturdays: useStorage<boolean>(storageKey('highlight-saturdays'), true),
+    highlightWeekdays: useStorage<Set<Weekday>>(
+      storageKey('highlight-weekdays'),
+      new Set(['sat', 'sun']),
+    ),
+    printCount: useStorage<number>(storageKey('print-count'), 1),
   }),
 
   getters: {
@@ -41,6 +48,15 @@ export const useShiftCalStore = defineStore('shift-calendar', {
         }
       }
     },
+    highlightWeekdaysAsString(): string {
+      return Array.from(this.highlightWeekdays.values()).join(',')
+    },
+    highlightWeekdayWithIndex() {
+      return (index: number) => {
+        const weekday = weekdays[index]
+        return this.highlightWeekdays.has(weekday)
+      }
+    },
   },
 
   actions: {
@@ -53,8 +69,16 @@ export const useShiftCalStore = defineStore('shift-calendar', {
     setFirstShiftInYear(firstShift: ShiftName) {
       this.firstShiftInYear = firstShift
     },
-    toggleHighlightSaturdays() {
-      this.highlightSaturdays = !this.highlightSaturdays
+    setHighlightWeekdays(weekend: Set<Weekday>) {
+      this.highlightWeekdays = weekend
+    },
+    setHighlightWeekdaysByString(value: string) {
+      const entries = value.split(',')
+      const weekdayEntries = entries.filter((e): e is Weekday => weekdays.includes(e as Weekday))
+      this.highlightWeekdays = new Set(weekdayEntries)
+    },
+    setPrintCount(count: number) {
+      this.printCount = count
     },
   },
 })

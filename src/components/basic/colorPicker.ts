@@ -5,7 +5,7 @@ type ColorIndex = (typeof colorIndexes)[number]
 export type OklchColorSet = Record<`color${ColorIndex}`, string>
 export type ColorPickerColor = { type: 'hue'; hue: number } | { type: 'gray'; gray: number }
 
-export const lightnessValues = { color1: '84%', color2: '92%', color3: '96%' }
+export const lightnessValues = { color1: '80%', color2: '88%', color3: '92%' }
 export const chromaValues = { color1: '0.12', color2: '0.07', color3: '0.03' }
 export const grayLightnessDeltas = { color1: 0, color2: 5, color3: 10 }
 

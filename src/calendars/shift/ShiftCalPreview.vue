@@ -3,8 +3,8 @@ import ShiftCalPreviewMonth from '@/calendars/shift/ShiftCalPreviewMonth.vue'
 import ShiftCalPreviewWeekHeader from '@/calendars/shift/ShiftCalPreviewWeekHeader.vue'
 import { Temporal } from '@js-temporal/polyfill'
 import { computed } from 'vue'
-import { useGlobalCalStore } from '../global/globalCalStore.js'
 import { useHolidays } from '../../holidays/useHolidays.js'
+import { useGlobalCalStore } from '../global/globalCalStore.js'
 import { ShiftName, useShiftCalStore } from './shiftCalStore.js'
 
 const store = useShiftCalStore()
@@ -68,18 +68,21 @@ function getShift(index: number): ShiftName {
 
 <template>
   <div
-    class="bg-white grid grid-cols-[auto,repeat(28,1fr)] w-[18cm] print:w-[14cm] border border-gray-500"
+    v-for="i in store.printCount"
+    :key="i"
+    class="hidden first:grid print:grid bg-white grid-cols-[auto,repeat(28,1fr)] w-[18cm] print:w-[14cm] border border-gray-600"
   >
     <div
       :class="[
         'row-span-2 row-start-1 col-start-1',
         'px-0.5',
         'text-center content-center',
-        'font-bold',
-        'bg-gray-500 text-white text-xs print:text-3xs',
+        'text-sm print:text-2xs font-bold',
+        'text-white',
+        'bg-gray-600',
       ]"
     >
-      {{ globalCalStore.year }}
+      <div class="-rotate-45">{{ globalCalStore.year }}</div>
     </div>
 
     <ShiftCalPreviewWeekHeader
@@ -93,9 +96,11 @@ function getShift(index: number): ShiftName {
     <div
       v-for="(day, index) in allDaysOfYear"
       :key="day.toString()"
-      class="text-xs leading-none py-0.5 print:text-3xs text-center px-0.5"
+      class="grid items-center justify-center text-xs leading-[0] h-4 print:h-[3mm] print:text-3xs text-center px-0.5 py-[0.5px]"
       :class="{
-        'bg-red-200 text-red-800 font-bold': isHoliday(day),
+        'font-bold': isHoliday(day) !== 'none',
+        'bg-red-500 text-white': isHoliday(day) === 'work',
+        'bg-sky-500 text-white': isHoliday(day) === 'school',
       }"
       :style="{ gridRowStart: getDateRow(index), gridColumnStart: getDateCol(index) }"
     >

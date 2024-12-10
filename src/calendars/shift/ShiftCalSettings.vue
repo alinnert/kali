@@ -37,22 +37,44 @@ const shiftItems = [shiftListItem(ShiftName.Early), shiftListItem(ShiftName.Late
       </div>
     </CalSettingItem>
 
-    <CalSettingItem title="Erste Schicht">
+    <CalSettingItem title="Kalender pro Seite drucken">
       <SelectList
-        :items="shiftItems"
-        :selectedItem="store.firstShiftInYear"
-        @update:selectedItem="store.setFirstShiftInYear"
+        :items="[
+          { value: 1, label: '1' },
+          { value: 2, label: '2' },
+          { value: 3, label: '3' },
+        ]"
+        :selected-item="store.printCount"
+        @update:selected-item="store.setPrintCount"
       />
     </CalSettingItem>
 
-    <CalSettingItem title="Anzahl drucken"></CalSettingItem>
-    <CalSettingItem title="Samstag einfärben"></CalSettingItem>
+    <CalSettingItem title="Erste Schicht">
+      <SelectList
+        :items="shiftItems"
+        :selected-item="store.firstShiftInYear"
+        @update:selected-item="store.setFirstShiftInYear"
+      />
+    </CalSettingItem>
+
+    <CalSettingItem title="Wochenende">
+      <SelectList
+        :items="[
+          { value: 'sat,sun', label: 'Samstag + Sonntag' },
+          { value: 'sun', label: 'Nur Sonntag' },
+        ]"
+        :selected-item="store.highlightWeekdaysAsString"
+        @update:selected-item="store.setHighlightWeekdaysByString"
+      />
+    </CalSettingItem>
+
     <CalSettingItem title="Farbe Frühschicht">
       <ColorPicker
         :color="store.earlyShiftColor"
         @update:color="(h) => store.setEarlyShiftColor(h)"
       ></ColorPicker>
     </CalSettingItem>
+
     <CalSettingItem title="Farbe Spätschicht">
       <ColorPicker
         :color="store.lateShiftColor"

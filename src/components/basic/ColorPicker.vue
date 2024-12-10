@@ -11,15 +11,17 @@ function* generateHues(amount: number) {
   do {
     yield Math.round(hue)
     hue += step
-  } while (hue < 360)
+  } while (Math.round(hue) < 360)
 }
 
-const hues = Array.from(generateHues(6 * 3 + 4))
-const grays = [85, 70]
+const cols = 6
+const rows = 4
+const grays = [80, 65]
+const hues = Array.from(generateHues(rows * cols - grays.length))
 </script>
 
 <template>
-  <div class="grid grid-cols-6 gap-1.5">
+  <div class="grid gap-1.5" :style="{ gridTemplateColumns: `repeat(${cols},1fr)` }">
     <ColorPickerItem
       v-for="hue in hues"
       :key="hue"

@@ -20,13 +20,15 @@ const shiftName = computed(() => t(`shiftNames.${shift}`))
 </script>
 
 <template>
+  <!-- Shift name -->
   <div
-    class="col-span-7 text-center uppercase print:text-xs row-start-1 border-l border-l-gray-500"
+    class="col-span-7 text-center uppercase print:text-xs row-start-1 border-l border-l-gray-600"
     :style="{ gridColumnStart: columnStart, backgroundColor: colors.color1 }"
   >
     {{ shiftName }}
   </div>
 
+  <!-- Weekday header -->
   <div
     :style="{
       gridColumnStart: columnStart,
@@ -36,36 +38,48 @@ const shiftName = computed(() => t(`shiftNames.${shift}`))
     }"
   />
 
-  <div
-    :style="{
-      gridColumnStart: columnStart + 5,
-      gridColumnEnd: columnStart + 7,
-      gridRowStart: 2,
-      backgroundColor: colors.color2,
-    }"
-  />
+  <!-- Highlighted weekdays header background -->
+  <template v-for="weekdayIndex in 7" :key="weekdayIndex">
+    <div
+      v-if="store.highlightWeekdayWithIndex(weekdayIndex - 1)"
+      :style="{
+        gridColumnStart: columnStart + weekdayIndex - 1,
+        gridColumnEnd: columnStart + weekdayIndex,
+        gridRowStart: 2,
+        backgroundColor: colors.color2,
+      }"
+    />
+  </template>
 
-  <div
-    :style="{
-      gridColumnStart: columnStart + 5,
-      gridColumnEnd: columnStart + 7,
-      gridRowStart: 3,
-      gridRowEnd: rowEnd,
-      backgroundColor: colors.color3,
-    }"
-  />
+  <!-- Highlighted weekdays background -->
+  <template v-for="weekdayIndex in 7" :key="weekdayIndex">
+    <div
+      v-if="store.highlightWeekdayWithIndex(weekdayIndex - 1)"
+      :style="{
+        gridColumnStart: columnStart + weekdayIndex - 1,
+        gridColumnEnd: columnStart + weekdayIndex,
+        gridRowStart: 3,
+        gridRowEnd: rowEnd,
+        backgroundColor: colors.color3,
+      }"
+    />
+  </template>
 
+  <!-- Vertical line -->
   <div
-    class="border-l border-l-gray-500 relative"
+    class="border-l border-l-gray-600 relative"
     :style="{ gridColumnStart: columnStart, gridRowStart: 2, gridRowEnd: rowEnd }"
   />
 
   <div
-    v-for="index in 7"
-    :key="index"
-    class="text-xs print:text-3xs font-bold text-center leading-none py-1 row-start-2"
-    :style="{ gridColumnStart: columnStart + index - 1 }"
+    v-for="weekdayIndex in 7"
+    :key="weekdayIndex"
+    class="text-xs print:text-3xs text-center leading-none py-1 row-start-2"
+    :class="{
+      'font-bold': store.highlightWeekdayWithIndex(weekdayIndex - 1),
+    }"
+    :style="{ gridColumnStart: columnStart + weekdayIndex - 1 }"
   >
-    {{ t(`weekDays.twoLettersArr.${index - 1}`) }}
+    {{ t(`weekDays.twoLettersArr.${weekdayIndex - 1}`) }}
   </div>
 </template>

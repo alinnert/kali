@@ -5,7 +5,7 @@ export default {
   theme: {
     extend: {
       fontSize: {
-        '2xs': '0.65rem',
+        '2xs': '0.6rem',
         '3xs': '0.55rem',
       },
     },

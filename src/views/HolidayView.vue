@@ -40,7 +40,7 @@ const { holidaysResult, holidays } = useHolidays()
     <AppHeadline :level="2">Feiertage (de)aktivieren</AppHeadline>
 
     <div @click="holidaysStore.toggleSchoolOnlyHolidays">
-      {{ holidaysStore.showSchoolOnlyHolidays ? '[X]' : '[_]' }} Schulfreie Tage anzeigen
+      {{ holidaysStore.showSchoolOnlyHolidays ? '[X]' : '[_]' }} Schulfreie Tage (blau) anzeigen
     </div>
 
     <template v-for="holiday in holidays" :key="holiday.name">

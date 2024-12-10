@@ -7,11 +7,11 @@ const { level = 1 } = defineProps<Props>()
 
 const classNames = computed((): string => {
   if (level === 1) {
-    return 'text-xl'
+    return 'text-2xl font-bold'
   }
 
   if (level === 2) {
-    return 'text-sm font-semibold text-gray-600 dark:text-gray-300'
+    return 'font-bold text-sky-600 dark:text-sky-300 [&:not(h1+&)]:mt-12'
   }
 
   return ''
@@ -19,5 +19,5 @@ const classNames = computed((): string => {
 </script>
 
 <template>
-  <h1 class="select-none mb-2" :class="classNames"><slot /></h1>
+  <component :is="`h${level}`" class="mb-2" :class="classNames"><slot></slot></component>
 </template>
