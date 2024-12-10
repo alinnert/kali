@@ -25,7 +25,7 @@ function isSelected<V extends VALUE>(item: SelectListItem<V>): boolean {
         'p-1',
         'rounded',
         {
-          'dark:bg-sky-900': isSelected(item),
+          'bg-sky-100 dark:bg-sky-900': isSelected(item),
           'hover:bg-gray-100 dark:hover:bg-gray-700': !isSelected(item),
         },
       ]"
@@ -38,7 +38,7 @@ function isSelected<V extends VALUE>(item: SelectListItem<V>): boolean {
       <div
         class="text-sm"
         :class="{
-          'dark:text-gray-300': !isSelected(item),
+          'text-gray-700 dark:text-gray-300': !isSelected(item),
         }"
       >
         {{ item.label }}
