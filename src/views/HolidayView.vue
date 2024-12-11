@@ -9,6 +9,10 @@ import { X } from 'lucide-vue-next'
 
 const holidaysStore = useHolidaysStore()
 const { holidaysResult, holidays, holidaysToAskDirectly, hasSchoolOnlyHolidays } = useHolidays()
+
+function getImageUrl(path: string): string {
+  return new URL(path, import.meta.url).href
+}
 </script>
 
 <template>
@@ -25,7 +29,7 @@ const { holidaysResult, holidays, holidaysToAskDirectly, hasSchoolOnlyHolidays }
     <div class="flex items-center gap-2" :class="{ 'flex-col': value !== '' }">
       <img
         v-if="value !== ''"
-        :src="`/emblems/${value.toLowerCase()}.svg`"
+        :src="getImageUrl(`../assets/emblems/${value.toLocaleLowerCase()}.svg`)"
         alt=""
         class="w-16 h-16"
       />
