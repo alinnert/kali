@@ -52,8 +52,8 @@ export const useHolidaysStore = defineStore('holidays', {
         this.enabledOptionalHolidays.splice(index, 1)
       }
     },
-    toggleSchoolOnlyHolidays() {
-      this.showSchoolOnlyHolidays = !this.showSchoolOnlyHolidays
+    toggleSchoolOnlyHolidays(value?: boolean) {
+      this.showSchoolOnlyHolidays = value ?? !this.showSchoolOnlyHolidays
     },
   },
 })

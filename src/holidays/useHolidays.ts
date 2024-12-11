@@ -68,8 +68,12 @@ export function useHolidays() {
     )
   })
 
-  const holidayDates = computed((): Temporal.PlainDate[] => {
-    return holidays.value.map((d): Temporal.PlainDate => d.date)
+  const hasSchoolOnlyHolidays = computed((): boolean => {
+    return holidays.value.some((h) => h.onlyForSchool)
+  })
+
+  const holidaysToAskDirectly = computed((): FormattedHoliday[] => {
+    return holidays.value.filter((h) => h.askDirectly)
   })
 
   function isHoliday(date: Temporal.PlainDate): 'work' | 'school' | 'none' {
@@ -89,5 +93,5 @@ export function useHolidays() {
     return 'work'
   }
 
-  return { holidaysResult, holidays, holidayDates, isHoliday }
+  return { holidaysResult, holidays, holidaysToAskDirectly, hasSchoolOnlyHolidays, isHoliday }
 }

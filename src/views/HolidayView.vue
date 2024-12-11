@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppHeadline from '@/components/basic/AppHeadline.vue'
+import CheckboxItem from '@/components/basic/CheckboxItem.vue'
 import SelectGrid from '@/components/basic/SelectGrid.vue'
 import { useHolidaysStore } from '@/holidays/holidaysStore.js'
 import { holidayStates } from '@/holidays/holidayStates.js'
@@ -7,8 +8,7 @@ import { useHolidays } from '@/holidays/useHolidays.js'
 import { X } from 'lucide-vue-next'
 
 const holidaysStore = useHolidaysStore()
-
-const { holidaysResult, holidays } = useHolidays()
+const { holidaysResult, holidays, holidaysToAskDirectly, hasSchoolOnlyHolidays } = useHolidays()
 </script>
 
 <template>
@@ -37,40 +37,77 @@ const { holidaysResult, holidays } = useHolidays()
   </SelectGrid>
 
   <template v-if="holidaysStore.selectedState !== ''">
-    <AppHeadline :level="2">Feiertage (de)aktivieren</AppHeadline>
+    <template v-if="hasSchoolOnlyHolidays || holidaysToAskDirectly.length > 0">
+      <AppHeadline :level="2">Einstellungen</AppHeadline>
 
-    <div @click="holidaysStore.toggleSchoolOnlyHolidays">
-      {{ holidaysStore.showSchoolOnlyHolidays ? '[X]' : '[_]' }} Schulfreie Tage (blau) anzeigen
-    </div>
-
-    <template v-for="holiday in holidays" :key="holiday.name">
-      <div
-        v-if="holiday.askDirectly"
-        @click="holidaysStore.toggleOptionalHolidays(holidaysStore.selectedState, holiday.name)"
+      <CheckboxItem
+        v-if="hasSchoolOnlyHolidays"
+        :checked="holidaysStore.showSchoolOnlyHolidays"
+        @update:checked="holidaysStore.toggleSchoolOnlyHolidays"
       >
-        {{
-          holidaysStore.enabledOptionalHolidays.some(
-            (it) => it.state === holidaysStore.selectedState && it.holiday === holiday.name,
-          )
-            ? '[X]'
-            : '[_]'
-        }}
-        {{ holiday.name }} anzeigen
-      </div>
+        Schulfreie Tage (blau) darstellen
+      </CheckboxItem>
+
+      <template v-for="holiday in holidaysToAskDirectly" :key="holiday.name">
+        <CheckboxItem
+          :checked="
+            holidaysStore.enabledOptionalHolidays.some(
+              (it) => it.state === holidaysStore.selectedState && it.holiday === holiday.name,
+            )
+          "
+          @update:checked="
+            holidaysStore.toggleOptionalHolidays(holidaysStore.selectedState, holiday.name)
+          "
+        >
+          {{ holiday.name }} anzeigen
+        </CheckboxItem>
+        <p v-if="holiday.info !== ''" class="text-xs mb-4">{{ holiday.info }}</p>
+      </template>
     </template>
 
-    <AppHeadline :level="2">Feiertage</AppHeadline>
-
     <div>
-      <div v-if="holidaysResult.isPending.value">Laden...</div>
+      <div v-if="holidaysResult.isPending.value">Feiertage werden geladen...</div>
       <div v-else-if="holidaysResult.isError.value">{{ holidaysResult.error }}</div>
       <div v-else-if="holidaysResult.isFetched.value">
-        <div v-for="holiday in holidays" :key="holiday.name" class="mb-4">
-          <div class="grid grid-cols-2 text-sm">
-            <div class="font-bold">{{ holiday.name }}</div>
-            <div>{{ holiday.date.toLocaleString() }}</div>
+        <AppHeadline :level="2">Feiertage</AppHeadline>
+
+        <div v-for="holiday in holidays" :key="holiday.name" class="mb-2">
+          <div class="grid grid-cols-[auto,1fr] gap-4 items-baseline">
+            <div
+              class="font-mono text-sm"
+              :class="{ 'text-gray-400 dark:text-gray-500': !holidaysStore.showHoliday(holiday) }"
+            >
+              {{
+                holiday.date.toLocaleString('de-de', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                })
+              }}
+            </div>
+            <div class="flex items-center">
+              <div
+                class="font-bold"
+                :class="{
+                  'line-through text-gray-400 dark:text-gray-500 decoration-gray-600 dark:decoration-gray-400':
+                    !holidaysStore.showHoliday(holiday),
+                }"
+              >
+                {{ holiday.name }}
+              </div>
+
+              <div
+                v-if="holiday.onlyForSchool"
+                :class="[
+                  'ml-2 px-1.5 py-1 text-3xs font-bold uppercase leading-none',
+                  'bg-sky-700 text-white',
+                  'rounded',
+                ]"
+              >
+                Schulfrei
+              </div>
+            </div>
           </div>
-          <div class="text-xs" v-if="holiday.info !== ''">{{ holiday.info }}</div>
         </div>
       </div>
     </div>

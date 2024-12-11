@@ -12,7 +12,7 @@ defineProps<Props>()
 
 <template>
   <div
-    class="col-start-1 text-sm print:text-2xs font-bold border-gray-500 content-center text-center px-0.5 bg-gray-100 border-r uppercase"
+    class="col-start-1 text-xs print:text-3xs font-bold border-gray-500 content-center text-center px-0.5 bg-gray-100 border-r uppercase"
     :style="{ gridRowStart: rowStart, gridRowEnd: rowEnd }"
   >
     {{ t(`months.${index}`) }}

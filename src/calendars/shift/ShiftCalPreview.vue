@@ -77,7 +77,7 @@ function getShift(index: number): ShiftName {
         'row-span-2 row-start-1 col-start-1',
         'px-0.5',
         'text-center content-center',
-        'text-sm print:text-2xs font-bold',
+        'text-xs print:text-3xs font-bold',
         'text-white',
         'bg-gray-600',
       ]"
