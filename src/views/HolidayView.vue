@@ -10,8 +10,8 @@ import { X } from 'lucide-vue-next'
 const holidaysStore = useHolidaysStore()
 const { holidaysResult, holidays, holidaysToAskDirectly, hasSchoolOnlyHolidays } = useHolidays()
 
-function getImageUrl(path: string): string {
-  return new URL(path, import.meta.url).href
+function getImageUrl(filename: string): string {
+  return new URL(`../assets/emblems/${filename}.svg`, import.meta.url).href
 }
 </script>
 
@@ -29,7 +29,7 @@ function getImageUrl(path: string): string {
     <div class="flex items-center gap-2" :class="{ 'flex-col': value !== '' }">
       <img
         v-if="value !== ''"
-        :src="getImageUrl(`../assets/emblems/${value.toLocaleLowerCase()}.svg`)"
+        :src="getImageUrl(value.toLocaleLowerCase())"
         alt=""
         class="w-16 h-16"
       />
