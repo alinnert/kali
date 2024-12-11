@@ -8,7 +8,7 @@
       :class="[
         'grid auto-rows-min gap-2 items-start justify-center',
         'bg-white dark:bg-gray-800 print:bg-transparent',
-        'rounded-xl print:rounded-none',
+        'rounded-lg print:rounded-none',
         'border print:border-none border-gray-200 dark:border-gray-600',
         'p-4 print:p-0',
       ]"
