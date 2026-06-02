@@ -49,11 +49,16 @@ export const useShiftCalStore = defineStore('shift-calendar', {
       }
     },
     highlightWeekdaysAsString(): string {
-      return Array.from(this.highlightWeekdays.values()).join(',')
+      const highlightWeekdaysIterator = this.highlightWeekdays.values()
+      const highlightWeekdaysArray: string[] = Array.from(highlightWeekdaysIterator)
+      return highlightWeekdaysArray.join(',')
     },
     highlightWeekdayWithIndex() {
       return (index: number) => {
         const weekday = weekdays[index]
+        if (weekday === undefined) {
+          return false
+        }
         return this.highlightWeekdays.has(weekday)
       }
     },

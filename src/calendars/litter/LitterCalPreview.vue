@@ -1,3 +1,1 @@
-<template>
-  Abfuhrkalender Vorschau
-</template>
+<template>Abfuhrkalender Vorschau</template>

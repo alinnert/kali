@@ -4,8 +4,10 @@ import { CalendarRange, House, Smile } from 'lucide-vue-next'
 </script>
 
 <template>
-  <div class="grid grid-cols-[80px,340px,1fr] gap-x-2 fixed inset-0">
-    <div class="border-r dark:border-r-gray-600 print:hidden bg-white dark:bg-gray-800">
+  <div class="grid grid-cols-[80px_340px_1fr] gap-x-2 fixed inset-0">
+    <div
+      class="border-r border-r-gray-200 dark:border-r-gray-600 print:hidden bg-white dark:bg-gray-800"
+    >
       <div class="text-center py-3 font-bold italic uppercase select-none dark:text-white">
         Kali
       </div>

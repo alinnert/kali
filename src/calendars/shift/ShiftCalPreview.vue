@@ -17,7 +17,7 @@ const firstDay = computed(() =>
 )
 
 const allMonths = computed((): Temporal.PlainYearMonth[] => {
-  return Array(12)
+  return new Array(12)
     .fill(undefined)
     .map((_, index) =>
       Temporal.PlainYearMonth.from({ year: globalCalStore.year, month: index + 1 }),
@@ -48,17 +48,29 @@ function getLastDayInMonth(month: Temporal.PlainYearMonth): Temporal.PlainDate {
 const daysPerRow = 7 * 4
 
 function getDateCol(index: number): number {
-  const dayOfWeekOffset = allDaysOfYear.value[0].dayOfWeek
+  const firstDayOfYear = allDaysOfYear.value[0]
+  if (firstDayOfYear === undefined) {
+    throw new Error('Error while getting days for year.')
+  }
+  const dayOfWeekOffset = firstDayOfYear.dayOfWeek
   const startingShiftOffset = store.firstShiftInYear === ShiftName.Early ? 0 : 7
   const offsetIndex = index - 1 + dayOfWeekOffset + startingShiftOffset
   return (offsetIndex % daysPerRow) + 2
 }
 
 function getDateRow(index: number): number {
-  const dayOfWeekOffset = allDaysOfYear.value[0].dayOfWeek
+  const firstDayOfYear = allDaysOfYear.value[0]
+  if (firstDayOfYear === undefined) {
+    throw new Error('Error while getting days for year.')
+  }
+  const dayOfWeekOffset = firstDayOfYear.dayOfWeek
   const startingShiftOffset = store.firstShiftInYear === ShiftName.Early ? 0 : 7
   const offsetIndex = index + dayOfWeekOffset + startingShiftOffset
-  return Math.ceil(offsetIndex / daysPerRow) + 1 + allDaysOfYear.value[index].month
+  const indexedDay = allDaysOfYear.value[index]
+  if (indexedDay === undefined) {
+    throw new Error(`Could not find day with index ${index}`)
+  }
+  return Math.ceil(offsetIndex / daysPerRow) + 1 + indexedDay.month
 }
 
 function getShift(index: number): ShiftName {
@@ -70,7 +82,7 @@ function getShift(index: number): ShiftName {
   <div
     v-for="i in store.printCount"
     :key="i"
-    class="hidden first:grid print:grid bg-white grid-cols-[auto,repeat(28,1fr)] w-[18cm] print:w-[14cm] border border-gray-600"
+    class="hidden first:grid print:grid bg-white grid-cols-[auto_repeat(28,1fr)] w-[18cm] print:w-[14cm] border border-gray-600"
   >
     <div
       :class="[

@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
 #vue-inspector-container,
 #__vue-devtools-container__ {
@@ -14,4 +12,9 @@
 
 .lucide * {
   vector-effect: non-scaling-stroke;
+}
+
+@theme {
+  --text-2xs: 0.65rem;
+  --text-3xs: 0.55rem;
 }

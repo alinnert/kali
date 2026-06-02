@@ -21,7 +21,7 @@ function isSelected<V extends VALUE>(item: SelectListItem<V>): boolean {
       v-for="item in items"
       :key="item.value"
       :class="[
-        'grid grid-cols-[auto,1fr] items-center gap-2',
+        'grid grid-cols-[auto_1fr] items-center gap-2',
         'p-1',
         'rounded',
         {

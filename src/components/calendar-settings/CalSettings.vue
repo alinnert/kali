@@ -13,8 +13,8 @@ function handlePrintClick() {
 </script>
 
 <template>
-  <div class="grid grid-rows-[auto,1fr] max-h-full">
-    <div class="grid grid-cols-[1fr,auto] py-2">
+  <div class="grid grid-rows-[auto_1fr] max-h-full">
+    <div class="grid grid-cols-[1fr_auto] py-2">
       <AppHeadline>{{ headline }}</AppHeadline>
 
       <div>

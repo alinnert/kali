@@ -76,7 +76,7 @@ function getImageUrl(filename: string): string {
         <AppHeadline :level="2">Feiertage</AppHeadline>
 
         <div v-for="holiday in holidays" :key="holiday.name" class="mb-2">
-          <div class="grid grid-cols-[auto,1fr] gap-4 items-baseline">
+          <div class="grid grid-cols-[auto_1fr] gap-4 items-baseline">
             <div
               class="font-mono text-sm"
               :class="{ 'text-gray-400 dark:text-gray-500': !holidaysStore.showHoliday(holiday) }"

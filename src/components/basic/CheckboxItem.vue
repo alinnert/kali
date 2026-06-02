@@ -6,11 +6,14 @@ defineModel<boolean>('checked', { required: true })
 
 <template>
   <div
-    :class="['grid grid-cols-[auto,1fr] items-center gap-2 p-1']"
+    :class="['grid grid-cols-[auto_1fr] items-center gap-2 p-1']"
     @click="$emit('update:checked', !checked)"
   >
     <div>
-      <component :is="checked ? SquareCheckBig : Square" :style="{ width: 20, height: 20, strokeWidth: 2 }" />
+      <component
+        :is="checked ? SquareCheckBig : Square"
+        :style="{ width: 20, height: 20, strokeWidth: 2 }"
+      />
     </div>
     <div class="select-none"><slot></slot></div>
   </div>

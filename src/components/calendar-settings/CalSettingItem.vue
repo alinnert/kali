@@ -7,7 +7,7 @@ defineProps<Props>()
 <template>
   <div
     :class="[
-      'grid grid-cols-[1fr,auto] gap-2',
+      'grid grid-cols-[1fr_auto] gap-2',
       'p-3',
       'bg-white dark:bg-gray-800',
       'border border-gray-200 dark:border-gray-600',

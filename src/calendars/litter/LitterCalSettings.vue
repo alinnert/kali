@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CalSettings from '@/components/calendar-settings/CalSettings.vue';
+import CalSettings from '@/components/calendar-settings/CalSettings.vue'
 </script>
 
 <template>

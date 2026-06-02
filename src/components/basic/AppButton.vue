@@ -8,24 +8,24 @@ defineEmits(['click'])
 
 const bgClasses = computed(() =>
   inline
-    ? 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600'
-    : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700',
+    ? 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 active:bg-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 dark:active:bg-gray-500'
+    : 'bg-white dark:bg-gray-800 hover:bg-gray-50 active:bg-gray-200 dark:hover:bg-gray-700 dark:active:bg-gray-600',
 )
 
-const borderClasses = computed(() => (inline ? '' : 'border dark:border-gray-600'))
+const borderClasses = computed(() => (inline ? '' : 'border border-gray-200 dark:border-gray-600'))
 </script>
 
 <template>
   <button
     @click="$emit('click')"
     :class="[
-      'grid grid-cols-[1fr,auto] items-center',
+      'grid grid-cols-[1fr_auto] items-center',
       bgClasses,
       borderClasses,
       'px-2 py-1 rounded',
       'select-none cursor-default',
       {
-        'grid-cols-[1fr,auto] gap-x-1.5': icon !== undefined,
+        'grid-cols-[1fr_auto] gap-x-1.5': icon !== undefined,
       },
     ]"
   >
